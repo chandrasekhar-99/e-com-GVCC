@@ -1,11 +1,13 @@
+require('dotenv').config();
 const Database = require('better-sqlite3');
 const fs = require('fs');
 const path = require('path');
 
 
+
 const isRender = process.env.RENDER === 'true';
 
-const dbDir = isRender ? '/var/data' : path.resolve(__dirname, '../db');
+const dbDir = isRender ? process.env.PROD_DB_PATH || '/var/data': process.env.LOCAL_DB_PATH || path.resolve(__dirname, '../../db'); 
 const dbPath = path.join(dbDir, 'database.sqlite');
 
 
