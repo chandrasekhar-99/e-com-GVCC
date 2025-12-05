@@ -3,9 +3,12 @@ const db = require('../config/db');
 
 const getAllProducts = (req, res) => {
   try{
-    const stmt = db.prepare('SELECT * FROM products');
-    const products = stmt.all();
-    res.json(products);
+    db.all('SELECT * FROM products',(err, rows) => {
+      if(err){
+        throw err;
+      }
+      res.json(rows);
+    });
   }catch(err){
     console.error("Error fetching products:", err);
     res.status(500).json({ error: "Internal Server Error" });
@@ -13,16 +16,22 @@ const getAllProducts = (req, res) => {
 };
 
 const getProductById = (req, res) => {
-  try {
-    const id = req.params.id;
-    const stmt = db.prepare('SELECT * FROM products WHERE id = ?');
-    const product = stmt.get(id);
-    res.json(product);
-  } catch (error) {
-    console.error("Error fetching product by ID:", error);
+  try{
+    const productId = parseInt(req.params.id, 10);
+    if (isNaN(productId)) {
+      return res.status(400).json({ error: "Invalid product ID" });
+    }
+
+    db.get('SELECT * FROM products WHERE id = ?', [productId], (err, row) => {
+      if(err){
+        throw err;
+      }
+      res.json(row);
+    });
+  }catch(err){
+    console.error("Error fetching product by ID:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
-  
 };
 
 module.exports = {

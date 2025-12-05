@@ -2,9 +2,10 @@ const db = require('../config/db');
 
 const initDB = () => {
 
-  //Products Table
+  db.serialize(() => {
+    //Products Table
 
-  db.exec(`
+  db.run(`
     CREATE TABLE IF NOT EXISTS products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
@@ -21,7 +22,7 @@ const initDB = () => {
 
   //Enquiries Table
 
-  db.exec(`
+  db.run(`
     CREATE TABLE IF NOT EXISTS enquiries (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       product_id INTEGER,
@@ -33,12 +34,24 @@ const initDB = () => {
     );
   `);
 
+   db.get(`SELECT COUNT(*) AS count FROM products`, (err, row) => {
+  if (err) {
+    console.error("Error checking products table:", err);
+  } else {
+    console.log(`Products table has ${row.count} records.`);
+    if (row.count === 0) {
+      seedProducts();
+    } else {
+      console.log("Products already seeded.");
+    }
+  }
+});
 
-  const insert = db.prepare(`
-    INSERT INTO products (title, category, description, price, image, rating_rate, rating_count)
-    VALUES (@title, @category, @description, @price, @image, @rating_rate, @rating_count)
-  `);
 
+  });
+}
+
+const seedProducts = () => {
   const products = [
   {
     "id": 1,
@@ -282,28 +295,37 @@ const initDB = () => {
   }
   ];
 
-const count = db.prepare('SELECT COUNT(*) AS count FROM products').get().count;
+  const insertStmt = db.prepare(`
+    INSERT INTO products (title, category, description, price, image, rating_rate, rating_count)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
 
-  if (count === 0) {
-    const insertMany = db.transaction((products) => {
-      for (const product of products) {
-        insert.run({
-          title: product.title,
-          category: product.category,
-          description: product.description,
-          price: product.price,
-          image: product.image,
-          rating_rate: product.rating.rate,
-          rating_count: product.rating.count
-        });
-      }
-    });
-    insertMany(products);
-    console.log("Products initialized in the database.");
-  }else{
-    console.log("Products already initialized in the database.");
-  }
+  products.forEach(product => {
+    insertStmt.run(
+      product.title,
+      product.category,
+      product.description,
+      product.price,
+      product.image,
+      product.rating_rate,
+      product.rating_count
+    );
+  });
 
-};
+  insertStmt.finalize(() => {
+    console.log("Products table seeded successfully.");
+  });
+
+
+}
+
 
 module.exports = initDB;
+
+
+
+
+
+  
+
+

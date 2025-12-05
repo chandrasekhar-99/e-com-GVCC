@@ -2,29 +2,28 @@ const db = require('../config/db');
 
 
 const createEnquiry = (req, res) => {
-  try {
+  try{
     const { product_id, name, email, phone, message } = req.body;
-
-    if(!product_id || !name || !email || !phone || !message){
-      return res.status(400).json({ error: "All fields are required" });
-    }
-    const stmt = db.prepare('INSERT INTO enquiries (product_id, name, email, phone, message) VALUES (?, ?, ?, ?, ?)');
-
-    const info = stmt.run(product_id, name, email, phone, message);
-
-    res.status(201).json({ id: info.lastInsertRowid, product_id, name, email, phone, message });
-  } catch (error) {
-    console.error("Error creating enquiry:", error);
+    db.run('INSERT INTO enquiries (product_id, name, email, phone, message) VALUES (?, ?, ?, ?, ?)', [product_id, name, email, phone, message], function(err) {
+      if(err){
+        throw err;
+      }
+      res.status(201).json({ id: this.lastID, product_id, name, email, phone, message });
+    });
+  }catch(err){
+    console.error("Error creating enquiry:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-
 const getAllEnquiries = (req, res) => {
   try{
-    const stmt = db.prepare('SELECT * FROM enquiries');
-    const enquiries = stmt.all();
-    res.json(enquiries);
+    db.all('SELECT * FROM enquiries',(err, rows) => {
+      if(err){
+        throw err;
+      }
+      res.json(rows);
+    });
   }catch(err){
     console.error("Error fetching enquiries:", err);
     res.status(500).json({ error: "Internal Server Error" });
