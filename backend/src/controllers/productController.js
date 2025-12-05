@@ -14,8 +14,9 @@ const getAllProducts = (req, res) => {
 
 const getProductById = (req, res) => {
   try {
+    const id = req.params.id;
     const stmt = db.prepare('SELECT * FROM products WHERE id = ?');
-    const product = stmt.get(req.params.id);
+    const product = stmt.get(id);
     res.json(product);
   } catch (error) {
     console.error("Error fetching product by ID:", error);

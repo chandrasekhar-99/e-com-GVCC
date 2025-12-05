@@ -1,6 +1,9 @@
 const db = require('../config/db');
 
 const initDB = () => {
+
+  //Products Table
+
   db.exec(`
     CREATE TABLE IF NOT EXISTS products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,6 +17,22 @@ const initDB = () => {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
+
+
+  //Enquiries Table
+
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS enquiries (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      product_id INTEGER,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      message TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
 
   const insert = db.prepare(`
     INSERT INTO products (title, category, description, price, image, rating_rate, rating_count)
