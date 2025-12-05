@@ -3,14 +3,21 @@ const fs = require('fs');
 const path = require('path');
 
 
-const dbDir = path.resolve(__dirname, '../../db');
-const dbPath = path.resolve(dbDir, 'database.sqlite');
+const isRender = process.env.RENDER === 'true';
 
+const dbDir = isRender ? '/var/data' : path.resolve(__dirname, '../db');
+const dbPath = path.join(dbDir, 'database.sqlite');
+
+
+if (!fs.existsSync(dbDir)) {
+  fs.mkdirSync(dbDir, { recursive: true });
+}
 
 if (!fs.existsSync(dbPath)) {
-  fs.mkdirSync(path.dirname(dbPath), { recursive: true });
   fs.writeFileSync(dbPath, '');
+  console.log('SQLite database created at:', dbPath);
 }
+
 
 const db = new Database(dbPath);
 
