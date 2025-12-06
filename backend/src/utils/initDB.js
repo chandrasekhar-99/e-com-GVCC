@@ -30,7 +30,8 @@ const initDB = () => {
       email TEXT NOT NULL,
       phone TEXT NOT NULL,
       message TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (product_id) REFERENCES products(id)
     );
   `);
 

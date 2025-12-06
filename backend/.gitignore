@@ -1,2 +1,38 @@
-# Environents
+
+
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Environment files
 .env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Build output
+dist/
+build/
+coverage/
+
+# SQLite database (optional)
+*.sqlite
+*.db
+*.db-wal
+*.db-shm
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
