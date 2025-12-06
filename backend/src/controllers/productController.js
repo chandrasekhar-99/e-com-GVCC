@@ -3,11 +3,63 @@ const db = require('../config/db');
 
 const getAllProducts = (req, res) => {
   try{
-    db.all('SELECT * FROM products',(err, rows) => {
-      if(err){
-        throw err;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const offset = (page - 1) * limit;
+
+    const search = req.query.search || '';
+
+    const categoryFilter = req.query.category || '';
+
+    const sortBy = req.query.sortBy || 'id';
+    const sortOrder = req.query.sortOrder === 'desc' ? 'DESC' : 'ASC';
+
+    let query = 'SELECT * FROM products WHERE 1=1';
+    const params = [];
+    if (search) {
+      query += ' AND (name LIKE ? OR description LIKE ?)';
+      params.push(`%${search}%`, `%${search}%`);
+    }
+
+    if (categoryFilter) {
+      query += ' AND category = ?';
+      params.push(categoryFilter);
+    }
+    query += ` ORDER BY ${sortBy} ${sortOrder} LIMIT ? OFFSET ?`;
+    params.push(limit, offset);
+
+
+    db.all(query, params, (err, rows) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Failed to fetch products" });
       }
-      res.json(rows);
+
+      const totalCountQuery = 'SELECT COUNT(*) as count FROM products WHERE 1=1' + (search ? ' AND (name LIKE ? OR description LIKE ?)' : '') + (categoryFilter ? ' AND category = ?' : '');
+      const countParams = [];
+
+      if (search) {
+        countParams.push(`%${search}%`, `%${search}%`);
+      }
+
+      if (categoryFilter) {
+        countParams.push(categoryFilter);
+      }
+
+      db.get(totalCountQuery, countParams, (countErr, countRow) => {
+        if (countErr) {
+          console.log(countErr);
+          return res.status(500).json({ error: "Failed to fetch product count" });
+        }
+
+        res.json({
+          page,
+          limit,
+          products: rows,
+          totalCount: countRow.count,
+          totalPages: Math.ceil(countRow.count / limit)
+        });
+      });
     });
   }catch(err){
     console.error("Error fetching products:", err);
