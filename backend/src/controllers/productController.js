@@ -17,7 +17,7 @@ const getAllProducts = (req, res) => {
     let query = 'SELECT * FROM products WHERE 1=1';
     const params = [];
     if (search) {
-      query += ' AND (name LIKE ? OR description LIKE ?)';
+      query += ' AND (name LIKE ? OR title LIKE ?)';
       params.push(`%${search}%`, `%${search}%`);
     }
 
