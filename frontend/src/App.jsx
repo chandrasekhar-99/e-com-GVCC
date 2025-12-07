@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import AdminLoginPage from "./pages/AdminLoginPage/AdminLoginPage";
 import EnquiriesPage from "./pages/EnquiriesPage/EnquiriesPage";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ProductDetails from './pages/ProductDetails/ProductDetails'
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </BrowserRouter>
   );

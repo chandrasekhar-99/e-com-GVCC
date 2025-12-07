@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     height: 100%;
     width: 100%;
-    background-color: #ececec; /* soft gray */
+    background-color: #ececec; 
     font-family: Arial, sans-serif;
   }
 

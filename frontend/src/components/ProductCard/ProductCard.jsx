@@ -11,6 +11,7 @@ import {
   Sortcontainer,
   ProductCardMainContainer
 } from "./ProductCard.styles"
+import {Link} from 'react-router-dom';
 
 import SearchInput from "../SearchInput/SearchInput";
 import DropDown from "../DropDown/DropDown";
@@ -72,7 +73,9 @@ const ProductCard = () => {
       <ProductCardContainer>
         {products.map((product) => (  
           <ProductDetails key={product.id} className="product-card">
-            <ProductImage src={product.image} alt={product.title} />
+            <Link to={`/product/${product.id}`}>
+              <ProductImage src={product.image} alt={product.title} />
+            </Link>
             <ProductTitle>{product.title}</ProductTitle>
             <ProductPrice>Price: ${product.price}</ProductPrice>
           </ProductDetails>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { LoginContainer, LoginCard, Title, Input, Button, ErrorText } from "./AdminLoginPage.styles";
 import api from "../../services/api";
+import NavBar from "../../components/NavBar/NavBar";
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState("");
@@ -26,6 +27,8 @@ const AdminLoginPage = () => {
   };
 
   return (
+    <>
+    <NavBar/>
     <LoginContainer>
       <LoginCard>
         <Title>Admin Login</Title>
@@ -62,6 +65,7 @@ const AdminLoginPage = () => {
         )}
       </LoginCard>
     </LoginContainer>
+    </>
   );
 };
 

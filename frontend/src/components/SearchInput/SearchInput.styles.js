@@ -8,7 +8,6 @@ export const SearchInputContainer = styled.div`
   margin-bottom: 15px;
   padding: 0 10px;
 
-  /* Mobile */
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
@@ -24,7 +23,7 @@ export const SearchInputField = styled.input`
   border-radius: 6px;
   font-size: 16px;
 
-  /* Mobile */
+  
   @media (max-width: 768px) {
     width: 90%;
   }
@@ -39,7 +38,7 @@ export const ProductCardContainer = styled.div`
   gap: 20px;
   padding: 10px;
 
-  /* Mobile */
+  
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;

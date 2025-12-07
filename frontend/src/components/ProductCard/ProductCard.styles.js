@@ -4,14 +4,14 @@ export const ProductCardMainContainer = styled.div`
   padding-top:30px
 `;
 
-/* MAIN CONTAINER FOR ALL CARDS */
+
 export const ProductCardContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  /* Desktop: center items with spacing */
+
   @media (min-width: 768px) {
     flex-direction: row;
     flex-wrap: wrap;
@@ -21,7 +21,7 @@ export const ProductCardContainer = styled.div`
   }
 `;
 
-/* PRODUCT IMAGE */
+
 export const ProductImage = styled.img`
   width: 100%;
   max-width: 100%;
@@ -37,7 +37,7 @@ export const ProductImage = styled.img`
 `;
 
 
-/* CARD WRAPPER */
+
 export const ProductDetails = styled.div`
   width: 90%;
   max-width: 350px;
@@ -60,7 +60,7 @@ export const ProductDetails = styled.div`
 `;
 
 
-/* TITLE */
+
 export const ProductTitle = styled.h3`
   font-size: 1.2rem;
   margin-bottom: 10px;
@@ -71,7 +71,7 @@ export const ProductTitle = styled.h3`
   }
 `;
 
-/* PRICE */
+
 export const ProductPrice = styled.p`
   font-size: 1rem;
   color: #444;
@@ -81,7 +81,7 @@ export const ProductPrice = styled.p`
   }
 `;
 
-/* DESCRIPTION */
+
 export const ProductDescription = styled.p`
   font-size: 0.9rem;
   color: #666;
@@ -92,7 +92,7 @@ export const ProductDescription = styled.p`
   }
 `;
 
-/* PAGINATION */
+
 export const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -105,7 +105,7 @@ export const PaginationWrapper = styled.div`
   }
 `;
 
-/* INDIVIDUAL BUTTON */
+
 export const PageButton = styled.button.withConfig({
   shouldForwardProp: (prop) => prop !== "active",
 })`
@@ -142,7 +142,7 @@ export const Sortcontainer = styled.div`
   align-items: center;
   gap: 10px;
 
-  /* Mobile view */
+  
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: flex-start;

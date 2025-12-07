@@ -17,10 +17,10 @@ const NavBar = () => {
   return (
     <>
       <NavBarContainer>
-        <Logo>Lumero</Logo>
+        <Link to="/"><Logo>Lumero</Logo></Link>
 
         <Menu>
-          <MenuItem>Home</MenuItem>
+          <Link to="/"><MenuItem>Home</MenuItem></Link>
           <MenuItem>Visitors</MenuItem>
           <MenuItem>Reports</MenuItem>
           <Link to="/admin-login"><MenuItem>Admin Login</MenuItem></Link>
@@ -32,7 +32,7 @@ const NavBar = () => {
       <OverlayMenu open={open}>
         <CloseBtn onClick={() => setOpen(false)}>×</CloseBtn>
 
-        <OverlayItem>Home</OverlayItem>
+        <Link to="/"><OverlayItem>Home</OverlayItem></Link>
         <OverlayItem>Visitors</OverlayItem>
         <OverlayItem>Reports</OverlayItem>
         <Link to="/admin-login"><OverlayItem>Admin Login</OverlayItem></Link>
