@@ -25,6 +25,7 @@ const EnquiriesPage = () => {
       setError("");
 
       const token = localStorage.getItem("token");
+      console.log(token)
       if (!token) {
         setError("You must be logged in as admin to view this page.");
         setLoading(false);
@@ -35,6 +36,8 @@ const EnquiriesPage = () => {
         const response = await api.get("/enquiries", {
           headers: { Authorization: `Bearer ${token}` },
         });
+
+        console.log(response)
 
         
 
