@@ -1,9 +1,9 @@
 import { SearchInputContainer, SearchInputField } from './SearchInput.styles';
 
-const SearchInput = () => {
+const SearchInput = ({onChange, value}) => {
   return (
     <SearchInputContainer>
-      <SearchInputField type="text" placeholder="Search products..." />
+      <SearchInputField type="text" placeholder="Search products..." value={value} onChange={onChange}/>
     </SearchInputContainer>
   );
 };

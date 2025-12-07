@@ -131,3 +131,17 @@ export const PageButton = styled.button.withConfig({
     font-size: 1rem;
   }
 `;
+
+export const Sortcontainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+
+  /* Mobile view */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+`;

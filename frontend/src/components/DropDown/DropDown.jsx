@@ -1,17 +1,17 @@
-import {SelectContainer, SelectBox, Option} from './DropDown.styles';
+import { DropdownContainer, Select, Option } from "./DropDown.styles";
 
-
-const DropDown = ({options, onChange, value}) =>  {
+const DropDown = ({options=[], onChange, value }) => {
   return (
-    <SelectBox>
-      <SelectContainer value={value} onChange={onChange}>
-        {options.map((option) => (
-          <Option key={option.value} value={option.value}>
-            {option.label}
+    <DropdownContainer>
+      <Select value={value} onChange={onChange}>
+        <Option value={value}>All Categories</Option>
+        {options.map((cat, index) => (
+          <Option key={index} value={cat}>
+            {cat}
           </Option>
         ))}
-      </SelectContainer>
-    </SelectBox>
+      </Select>
+    </DropdownContainer>
   );
 };
 

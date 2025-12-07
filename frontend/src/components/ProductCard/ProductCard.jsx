@@ -7,21 +7,25 @@ import {
   ProductTitle, 
   ProductPrice,
   PaginationWrapper,
-  PageButton
+  PageButton,
+  Sortcontainer
 } from "./ProductCard.styles"
 
 import SearchInput from "../SearchInput/SearchInput";
 import DropDown from "../DropDown/DropDown";
 
-
+const categories = [
+  "men's clothing", 
+  "women's clothing", 
+  "jewelery", 
+  "electronics", 
+];
 
 const ProductCard = () => {
   const [searchItem, setSearchItem] = useState('');
   const [category, setCategory] = useState('');
-  const [categoryOptions, setCategoryOptions] = useState([]);
 
   const [products, setProducts] = useState([]);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -35,16 +39,12 @@ const ProductCard = () => {
       try {
         const response = await api.get("/products",{
           params: {
-            page: page,
+            page,
             limit: itemsPerPage,
             search: searchItem,
-            category: category
+            category
           }
         });
-        
-        const uniqueCategories = [...new Set(response.data.products.map(product => product.category))];
-        
-        setCategoryOptions(uniqueCategories);
 
         setProducts(response.data.products);
         setTotalPages(response.data.totalPages);
@@ -64,40 +64,42 @@ const ProductCard = () => {
 
   return (
     <>
-    <SearchInput onChange={(e) => setSearchItem(e.target.value)} />
-    <DropDown onChange={(e) => setCategory(e.target.value)}  options={categoryOptions} value={category} placeholder="Select Category" />
-    <ProductCardContainer>
-      {products.map((product) => (  
-        <ProductDetails key={product.id} className="product-card">
-          <ProductImage src={product.image} alt={product.title} />
-          <ProductTitle>{product.title}</ProductTitle>
-          <ProductPrice>Price: ${product.price}</ProductPrice>
-        </ProductDetails>
-      ))}
-    </ProductCardContainer>
-    <PaginationWrapper>
-      <PageButton disabled={page === 1} onClick={() => setPage(page - 1)}>
-        ◀ Prev
-      </PageButton>
-
-      {Array.from({ length: totalPages }, (_, index) => (
-        <PageButton
-          key={index}
-          active={page === index + 1}
-          onClick={() => setPage(index + 1)}
-        >
-          {index + 1}
+      <Sortcontainer>
+        <SearchInput onChange={(e) => setSearchItem(e.target.value)} value={searchItem}/>
+        <DropDown onChange={(e) => setCategory(e.target.value)}  options={categories} value={category} placeholder="Select Category" />
+      </Sortcontainer>
+      <ProductCardContainer>
+        {products.map((product) => (  
+          <ProductDetails key={product.id} className="product-card">
+            <ProductImage src={product.image} alt={product.title} />
+            <ProductTitle>{product.title}</ProductTitle>
+            <ProductPrice>Price: ${product.price}</ProductPrice>
+          </ProductDetails>
+        ))}
+      </ProductCardContainer>
+      <PaginationWrapper>
+        <PageButton disabled={page === 1} onClick={() => setPage(page - 1)}>
+          ◀ Prev
         </PageButton>
-      ))}
 
-      <PageButton
-        disabled={page === totalPages}
-        onClick={() => setPage(page + 1)}
-      >
-        Next ▶
-      </PageButton>
-    </PaginationWrapper>
-</>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <PageButton
+            key={index}
+            active={page === index + 1}
+            onClick={() => setPage(index + 1)}
+          >
+            {index + 1}
+          </PageButton>
+        ))}
+
+        <PageButton
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+        >
+          Next ▶
+        </PageButton>
+      </PaginationWrapper>
+    </>
 
   );
 }
