@@ -36,6 +36,8 @@ const EnquiriesPage = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        
+
         const enquiriesData = response.data;
 
         if (!Array.isArray(enquiriesData) || enquiriesData.length === 0) {

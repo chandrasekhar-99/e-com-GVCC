@@ -1,16 +1,21 @@
 require("dotenv").config();
 
 const auth = (req, res, next) => {
-  const header = req.headers["authorization"];
+  const authHeader = req.headers["authorization"];
 
-  if (!header) {
+  if (!authHeader) {
     return res.status(401).json({ error: "No token provided" });
   }
 
-  
-  const token = header.replace("Bearer", "").trim();
 
-  if (token === process.env.ADMIN_TOKEN_SECRET.trim()) {
+  const [bearer, token] = authHeader.split(" ");
+
+  if (bearer !== "Bearer" || !token) {
+    return res.status(401).json({ error: "Invalid authorization format" });
+  }
+
+ 
+  if (token === process.env.ADMIN_TOKEN_SECRET) {
     return next();
   }
 
