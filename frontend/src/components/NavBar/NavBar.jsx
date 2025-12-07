@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem
 } from "./NavBar.styles";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -16,13 +17,13 @@ const NavBar = () => {
   return (
     <>
       <NavBarContainer>
-        <Logo>Vistora</Logo>
+        <Logo>Lumero</Logo>
 
         <Menu>
           <MenuItem>Home</MenuItem>
           <MenuItem>Visitors</MenuItem>
           <MenuItem>Reports</MenuItem>
-          <MenuItem>Admin Login</MenuItem>
+          <Link to="/admin-login"><MenuItem>Admin Login</MenuItem></Link>
         </Menu>
 
         <Hamburger onClick={() => setOpen(true)}>☰</Hamburger>
@@ -34,7 +35,7 @@ const NavBar = () => {
         <OverlayItem>Home</OverlayItem>
         <OverlayItem>Visitors</OverlayItem>
         <OverlayItem>Reports</OverlayItem>
-        <OverlayItem>Admin Login</OverlayItem>
+        <Link to="/admin-login"><OverlayItem>Admin Login</OverlayItem></Link>
       </OverlayMenu>
     </>
   );

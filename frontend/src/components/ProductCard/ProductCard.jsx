@@ -8,7 +8,8 @@ import {
   ProductPrice,
   PaginationWrapper,
   PageButton,
-  Sortcontainer
+  Sortcontainer,
+  ProductCardMainContainer
 } from "./ProductCard.styles"
 
 import SearchInput from "../SearchInput/SearchInput";
@@ -63,7 +64,7 @@ const ProductCard = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <>
+    <ProductCardMainContainer>
       <Sortcontainer>
         <SearchInput onChange={(e) => setSearchItem(e.target.value)} value={searchItem}/>
         <DropDown onChange={(e) => setCategory(e.target.value)}  options={categories} value={category} placeholder="Select Category" />
@@ -99,7 +100,7 @@ const ProductCard = () => {
           Next ▶
         </PageButton>
       </PaginationWrapper>
-    </>
+    </ProductCardMainContainer>
 
   );
 }

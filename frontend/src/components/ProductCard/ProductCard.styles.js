@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+export const ProductCardMainContainer = styled.div`
+  padding-top:30px
+`;
+
 /* MAIN CONTAINER FOR ALL CARDS */
 export const ProductCardContainer = styled.div`
   width: 100%;

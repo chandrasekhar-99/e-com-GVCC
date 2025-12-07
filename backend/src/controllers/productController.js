@@ -16,13 +16,13 @@ const getAllProducts = (req, res) => {
     let query = "SELECT * FROM products WHERE 1=1";
     const params = [];
 
-    // 🔍 FIXED SEARCH (your table uses title, NOT name)
+    // FIXED SEARCH (your table uses title, NOT name)
     if (search) {
       query += " AND (title LIKE ? OR description LIKE ?)";
       params.push(`%${search}%`, `%${search}%`);
     }
 
-    // 📌 CATEGORY FILTER
+    // CATEGORY FILTER
     if (categoryFilter) {
       query += " AND category = ?";
       params.push(categoryFilter);

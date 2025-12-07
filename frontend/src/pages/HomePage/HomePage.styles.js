@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const HomePageContainer = styled.div`
   padding: 20px;
+  margin-top:60px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -16,6 +17,9 @@ export const Title = styled.h1`
 `;
 
 export const Subtitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   color: #666;
+  width:90%;
+  padding-left:10%;
+  text-align:center;
 `;
