@@ -12,16 +12,17 @@ const getAllProducts = (req, res) => {
     const sortBy = req.query.sortBy || "id";
     const sortOrder = req.query.sortOrder === "desc" ? "DESC" : "ASC";
 
+    // MAIN QUERY
     let query = "SELECT * FROM products WHERE 1=1";
     const params = [];
 
-    // SEARCH (only use existing fields)
+    // 🔍 FIXED SEARCH (your table uses title, NOT name)
     if (search) {
-      query += " AND name LIKE ?";
-      params.push(`%${search}%`);
+      query += " AND (title LIKE ? OR description LIKE ?)";
+      params.push(`%${search}%`, `%${search}%`);
     }
 
-    // CATEGORY FILTER
+    // 📌 CATEGORY FILTER
     if (categoryFilter) {
       query += " AND category = ?";
       params.push(categoryFilter);
@@ -31,19 +32,23 @@ const getAllProducts = (req, res) => {
     query += ` ORDER BY ${sortBy} ${sortOrder} LIMIT ? OFFSET ?`;
     params.push(limit, offset);
 
+    console.log("QUERY:", query);
+    console.log("PARAMS:", params);
+
     db.all(query, params, (err, rows) => {
       if (err) {
-        console.error("Error in SELECT:", err);
+        console.log(err);
         return res.status(500).json({ error: "Failed to fetch products" });
       }
 
-      // COUNT QUERY (same filters)
-      let countQuery = "SELECT COUNT(*) AS count FROM products WHERE 1=1";
+      // COUNT QUERY
+      let countQuery =
+        "SELECT COUNT(*) AS count FROM products WHERE 1=1";
       const countParams = [];
 
       if (search) {
-        countQuery += " AND name LIKE ?";
-        countParams.push(`%${search}%`);
+        countQuery += " AND (title LIKE ? OR description LIKE ?)";
+        countParams.push(`%${search}%`, `%${search}%`);
       }
 
       if (categoryFilter) {
@@ -51,9 +56,12 @@ const getAllProducts = (req, res) => {
         countParams.push(categoryFilter);
       }
 
+      console.log("COUNT QUERY:", countQuery);
+      console.log("COUNT PARAMS:", countParams);
+
       db.get(countQuery, countParams, (countErr, countRow) => {
         if (countErr) {
-          console.error("Count error:", countErr);
+          console.log(countErr);
           return res.status(500).json({ error: "Failed to fetch product count" });
         }
 
